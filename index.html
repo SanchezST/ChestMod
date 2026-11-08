@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChestMod — сундук с модами, ресурспаками и шейдерами</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><polygon points='32,6 56,18 32,30 8,18' fill='%23d32040'/><polygon points='8,18 32,30 32,54 8,42' fill='%235c0d1a'/><polygon points='32,30 56,18 56,42 32,54' fill='%238e1226'/><polygon points='40.5,29.5 47.5,26 45.3,24.9 38.3,28.4' fill='%23ffd7a1'/><polygon points='40.5,29.5 40.5,38.5 38.3,37.4 38.3,28.4' fill='%23b8622d'/><polygon points='40.5,29.5 47.5,26 47.5,35 40.5,38.5' fill='%23ffb45c'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@400;500;600;700;800&family=Press+Start+2P&family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="chest-logo" viewBox="0 0 64 64">
+      <defs>
+        <linearGradient id="chestTop" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ff7a90"/>
+          <stop offset="0.6" stop-color="#c2183a"/>
+          <stop offset="1" stop-color="#8e1226"/>
+        </linearGradient>
+        <linearGradient id="chestLeft" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#6d0f1f"/>
+          <stop offset="1" stop-color="#25060d"/>
+        </linearGradient>
+        <linearGradient id="chestRight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#a0152c"/>
+          <stop offset="1" stop-color="#43060f"/>
+        </linearGradient>
+        <linearGradient id="chestGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffe0b0"/>
+          <stop offset="1" stop-color="#ff9d5c"/>
+        </linearGradient>
+      </defs>
+
+      <ellipse cx="32" cy="56" rx="21" ry="5" fill="#ff4d6d" opacity="0.16"/>
+
+      <polygon points="32,6 56,18 32,30 8,18"
+               fill="url(#chestTop)" stroke="#1b0409" stroke-width="1.6" stroke-linejoin="round"/>
+      <polygon points="8,18 32,30 32,54 8,42"
+               fill="url(#chestLeft)" stroke="#1b0409" stroke-width="1.6" stroke-linejoin="round"/>
+      <polygon points="32,30 56,18 56,42 32,54"
+               fill="url(#chestRight)" stroke="#1b0409" stroke-width="1.6" stroke-linejoin="round"/>
+
+      <polygon points="8,26 32,38 32,40.6 8,28.6" fill="#1b0409" opacity="0.6"/>
+      <polygon points="32,38 56,26 56,28.6 32,40.6" fill="#1b0409" opacity="0.45"/>
+      <polygon points="32,10 49,18 32,26 15,18" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
+
+      <polygon points="12,31 16,33 16,36 12,34" fill="#000000" opacity="0.22"/>
+      <polygon points="20,38 24,40 24,43 20,41" fill="#000000" opacity="0.18"/>
+      <polygon points="46,38 50,36 50,39 46,41" fill="#ffffff" opacity="0.06"/>
+      <polygon points="38,44 42,42 42,45 38,47" fill="#000000" opacity="0.16"/>
+
+      <polygon points="40.5,29.5 40.5,38.5 38.3,37.4 38.3,28.4"
+               fill="#b8622d" stroke="#1b0409" stroke-width="1" stroke-linejoin="round"/>
+      <polygon points="40.5,29.5 47.5,26 45.3,24.9 38.3,28.4"
+               fill="#ffd7a1" stroke="#1b0409" stroke-width="1" stroke-linejoin="round"/>
+      <polygon points="40.5,29.5 47.5,26 47.5,35 40.5,38.5"
+               fill="url(#chestGold)" stroke="#1b0409" stroke-width="1.1" stroke-linejoin="round"/>
+      <polygon points="41.3,29.9 46.7,27.2 46.7,28.6 41.3,31.3" fill="#ffffff" opacity="0.16"/>
+      <polygon points="43,32.6 45,31.6 45,34.6 43,35.6" fill="#3d0c17"/>
+
+      <rect x="52" y="9" width="3" height="3" fill="#ffd7a1" shape-rendering="crispEdges"/>
+      <rect x="9" y="11" width="2" height="2" fill="#ff8fa3" shape-rendering="crispEdges"/>
+      <rect x="57" y="34" width="2" height="2" fill="#ffb45c" shape-rendering="crispEdges"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <svg class="brand-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+      <div>
+        <div class="brand-name">ChestMod</div>
+        <div class="brand-sub" data-i18n="brandSub">Minecraft Modpack Vault</div>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <a class="api-badge" href="https://docs.modrinth.com/" target="_blank" rel="noopener noreferrer">
+        Modrinth API
+      </a>
+
+      <div class="build-pill" id="build-pill">1.20.1 · Fabric</div>
+
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn" data-lang="ru">Русский</button>
+        <button type="button" class="lang-btn" data-lang="en">English</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<nav class="tabs-wrap">
+  <div class="tabs-inner">
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="builder" data-i18n="tabBuilder">Сборка</button>
+      <button type="button" class="tab-btn" data-tab="explore" data-i18n="tabExplore">Обзор Modrinth</button>
+    </div>
+
+    <button type="button" class="chest-mini" id="chest-mini" title="Открыть сундук">
+      <svg class="mini-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+      <span id="chest-count-top">0</span>
+    </button>
+  </div>
+</nav>
+
+
+<main>
+
+  <section id="tab-builder" class="tab-panel active">
+    <div class="layout">
+
+      <div class="content">
+
+        <section class="panel hero">
+          <div class="hero-copy">
+            <div class="hero-label" data-i18n="heroLabel">Сборщик сборок</div>
+            <h1 data-i18n-html="heroTitle">Сложи файлы в сундук <span>и забери одним ZIP</span></h1>
+            <p data-i18n="heroText">
+              Выбираешь версию и загрузчик, кидаешь моды, ресурспаки и шейдеры в сундук — ChestMod сам
+              подтянет зависимости, проверит конфликты и соберёт архив с папками.
+            </p>
+            <div class="hero-steps">
+              <span class="step-chip active" data-i18n="step1">1. Версия</span>
+              <span class="step-chip" data-i18n="step2">2. Файлы</span>
+              <span class="step-chip" data-i18n="step3">3. ZIP</span>
+            </div>
+          </div>
+
+          <div class="hero-art">
+            <div class="hero-glow"></div>
+            <svg class="hero-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2 data-i18n="settingsTitle">Параметры сборки</h2>
+            <span class="muted" data-i18n="stepTag">Шаг 1</span>
+          </div>
+
+          <div class="settings-grid">
+            <div class="field">
+              <span data-i18n="versionLabel">Версия Minecraft</span>
+              <div id="version-picker"></div>
+            </div>
+
+            <div class="field">
+              <span data-i18n="loaderLabel">Загрузчик</span>
+              <div id="loader-picker"></div>
+            </div>
+          </div>
+
+          <div class="settings-footer">
+            <button id="goto-explore-btn" class="btn-ghost" data-i18n="findMods">🔎 Найти в обзоре</button>
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="panel chest">
+        <div class="panel-head">
+          <h2 data-i18n="chestTitle">Ваш сундук</h2>
+          <span id="chest-count" class="count-badge">0</span>
+        </div>
+
+        <div id="chest-issues" class="chest-issues" hidden></div>
+
+        <div id="chest-empty" class="empty-state">
+          <svg class="empty-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+          <p data-i18n="chestEmptyTitle">Сундук пуст</p>
+          <small data-i18n="chestEmptySub">Найдите моды, ресурспаки или шейдеры в обзоре и положите их сюда.</small>
+        </div>
+
+        <div id="chest-list" class="chest-list"></div>
+
+        <div id="chest-summary" class="chest-summary" hidden></div>
+
+        <div id="progress-wrap" hidden>
+          <div id="progress-bar"></div>
+        </div>
+        <div id="progress-text" class="progress-text" hidden></div>
+
+        <div class="chest-actions">
+          <button id="download-btn" disabled data-i18n="download">Скачать ZIP</button>
+          <button id="fix-deps-btn" class="btn-ghost" hidden data-i18n="fixDeps">Дотянуть зависимости</button>
+          <button id="clear-btn" class="btn-danger" hidden data-i18n="clear">Очистить</button>
+        </div>
+
+        <p class="hint" data-i18n="hint">Проверка SHA-1 и раскладка по папкам mods / resourcepacks / shaderpacks.</p>
+      </aside>
+
+    </div>
+  </section>
+
+
+  <section id="tab-explore" class="tab-panel">
+    <div class="explore-page">
+      <div class="explore-layout">
+
+        <aside class="panel explore-sidebar">
+          <div class="panel-head">
+            <h2 data-i18n="searchTitle">Поиск и фильтры</h2>
+          </div>
+
+          <div class="sidebar-stack">
+            <div class="field">
+              <span data-i18n="projectTypeLabel">Тип проекта</span>
+              <div class="type-switch" id="project-type-switch">
+                <button type="button" class="type-btn active" data-project-type="mod" data-i18n="typeModButton">Моды</button>
+                <button type="button" class="type-btn" data-project-type="resourcepack" data-i18n="typeResourcepackButton">Ресурсы</button>
+                <button type="button" class="type-btn" data-project-type="shader" data-i18n="typeShaderButton">Шейдеры</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span data-i18n="searchLabel">Поиск</span>
+              <input type="text" id="explore-search" data-i18n-placeholder="searchPlaceholder" placeholder="Sodium, JEI, Create..." autocomplete="off">
+            </div>
+
+            <button id="explore-search-btn" data-i18n="searchBtn">Найти</button>
+
+            <div class="field">
+              <span data-i18n="sortLabel">Сортировка</span>
+              <div id="sort-picker"></div>
+            </div>
+
+            <div class="field">
+              <span data-i18n="categoryLabel">Категория</span>
+              <div id="category-picker"></div>
+            </div>
+
+            <label class="checkbox-field">
+              <input type="checkbox" id="explore-use-filters" checked>
+              <span data-i18n="onlyBuild">Только под мою сборку</span>
+            </label>
+
+            <label class="checkbox-field" id="translate-field">
+              <input type="checkbox" id="explore-translate">
+              <span data-i18n="translateDesc">Переводить описания</span>
+            </label>
+
+            <button id="explore-refresh" class="btn-ghost" data-i18n="refresh">Обновить</button>
+          </div>
+        </aside>
+
+        <div class="explore-content">
+          <div id="explore-meta" class="explore-meta"></div>
+          <div id="explore-results" class="results-grid"></div>
+
+          <div class="load-more-wrap">
+            <button id="explore-load-more" class="btn-ghost" hidden data-i18n="loadMore">Показать ещё</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<div id="overlay" class="overlay"></div>
+
+<div id="mod-detail" class="modal-detail" role="dialog" aria-modal="true">
+  <button type="button" class="modal-close" title="Close">✕</button>
+  <div class="modal-body" id="mod-detail-body"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
