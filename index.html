@@ -17,42 +17,50 @@
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 </head>
-<body>
+<body data-theme="burgundy">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="chest-logo" viewBox="0 0 64 64">
       <defs>
         <linearGradient id="chestTop" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ff7a90"/>
-          <stop offset="0.6" stop-color="#c2183a"/>
-          <stop offset="1" stop-color="#8e1226"/>
+          <stop offset="0" style="stop-color: var(--logo-top-1)"/>
+          <stop offset="0.6" style="stop-color: var(--logo-top-2)"/>
+          <stop offset="1" style="stop-color: var(--logo-top-3)"/>
         </linearGradient>
+
         <linearGradient id="chestLeft" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#6d0f1f"/>
-          <stop offset="1" stop-color="#25060d"/>
+          <stop offset="0" style="stop-color: var(--logo-left-1)"/>
+          <stop offset="1" style="stop-color: var(--logo-left-2)"/>
         </linearGradient>
+
         <linearGradient id="chestRight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#a0152c"/>
-          <stop offset="1" stop-color="#43060f"/>
+          <stop offset="0" style="stop-color: var(--logo-right-1)"/>
+          <stop offset="1" style="stop-color: var(--logo-right-2)"/>
         </linearGradient>
+
         <linearGradient id="chestGold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ffe0b0"/>
-          <stop offset="1" stop-color="#ff9d5c"/>
+          <stop offset="0" style="stop-color: var(--logo-gold-1)"/>
+          <stop offset="1" style="stop-color: var(--logo-gold-2)"/>
         </linearGradient>
       </defs>
 
-      <ellipse cx="32" cy="56" rx="21" ry="5" fill="#ff4d6d" opacity="0.16"/>
+      <ellipse cx="32" cy="56" rx="21" ry="5" style="fill: rgba(var(--accent-rgb), 0.16)"/>
 
       <polygon points="32,6 56,18 32,30 8,18"
-               fill="url(#chestTop)" stroke="#1b0409" stroke-width="1.6" stroke-linejoin="round"/>
-      <polygon points="8,18 32,30 32,54 8,42"
-               fill="url(#chestLeft)" stroke="#1b0409" stroke-width="1.6" stroke-linejoin="round"/>
-      <polygon points="32,30 56,18 56,42 32,54"
-               fill="url(#chestRight)" stroke="#1b0409" stroke-width="1.6" stroke-linejoin="round"/>
+               fill="url(#chestTop)"
+               style="stroke: var(--logo-stroke); stroke-width: 1.6; stroke-linejoin: round;"/>
 
-      <polygon points="8,26 32,38 32,40.6 8,28.6" fill="#1b0409" opacity="0.6"/>
-      <polygon points="32,38 56,26 56,28.6 32,40.6" fill="#1b0409" opacity="0.45"/>
+      <polygon points="8,18 32,30 32,54 8,42"
+               fill="url(#chestLeft)"
+               style="stroke: var(--logo-stroke); stroke-width: 1.6; stroke-linejoin: round;"/>
+
+      <polygon points="32,30 56,18 56,42 32,54"
+               fill="url(#chestRight)"
+               style="stroke: var(--logo-stroke); stroke-width: 1.6; stroke-linejoin: round;"/>
+
+      <polygon points="8,26 32,38 32,40.6 8,28.6" fill="#000000" opacity="0.35"/>
+      <polygon points="32,38 56,26 56,28.6 32,40.6" fill="#000000" opacity="0.25"/>
       <polygon points="32,10 49,18 32,26 15,18" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
 
       <polygon points="12,31 16,33 16,36 12,34" fill="#000000" opacity="0.22"/>
@@ -61,17 +69,23 @@
       <polygon points="38,44 42,42 42,45 38,47" fill="#000000" opacity="0.16"/>
 
       <polygon points="40.5,29.5 40.5,38.5 38.3,37.4 38.3,28.4"
-               fill="#b8622d" stroke="#1b0409" stroke-width="1" stroke-linejoin="round"/>
+               fill="#b8622d"
+               style="stroke: var(--logo-stroke); stroke-width: 1; stroke-linejoin: round;"/>
+
       <polygon points="40.5,29.5 47.5,26 45.3,24.9 38.3,28.4"
-               fill="#ffd7a1" stroke="#1b0409" stroke-width="1" stroke-linejoin="round"/>
+               fill="#ffd7a1"
+               style="stroke: var(--logo-stroke); stroke-width: 1; stroke-linejoin: round;"/>
+
       <polygon points="40.5,29.5 47.5,26 47.5,35 40.5,38.5"
-               fill="url(#chestGold)" stroke="#1b0409" stroke-width="1.1" stroke-linejoin="round"/>
+               fill="url(#chestGold)"
+               style="stroke: var(--logo-stroke); stroke-width: 1.1; stroke-linejoin: round;"/>
+
       <polygon points="41.3,29.9 46.7,27.2 46.7,28.6 41.3,31.3" fill="#ffffff" opacity="0.16"/>
       <polygon points="43,32.6 45,31.6 45,34.6 43,35.6" fill="#3d0c17"/>
 
-      <rect x="52" y="9" width="3" height="3" fill="#ffd7a1" shape-rendering="crispEdges"/>
-      <rect x="9" y="11" width="2" height="2" fill="#ff8fa3" shape-rendering="crispEdges"/>
-      <rect x="57" y="34" width="2" height="2" fill="#ffb45c" shape-rendering="crispEdges"/>
+      <rect x="52" y="9" width="3" height="3" style="fill: var(--logo-gold-1)" shape-rendering="crispEdges"/>
+      <rect x="9" y="11" width="2" height="2" style="fill: var(--logo-spark)" shape-rendering="crispEdges"/>
+      <rect x="57" y="34" width="2" height="2" style="fill: var(--logo-gold-2)" shape-rendering="crispEdges"/>
     </symbol>
   </defs>
 </svg>
@@ -94,10 +108,17 @@
 
       <div class="build-pill" id="build-pill">1.20.1 · Fabric</div>
 
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button type="button" class="lang-btn" data-lang="ru">Русский</button>
-        <button type="button" class="lang-btn" data-lang="en">English</button>
-      </div>
+      <button
+        type="button"
+        class="settings-btn"
+        id="settings-btn"
+        data-i18n-title="settingsBtnTitle"
+        data-i18n-aria="settingsBtnTitle"
+        aria-label="Настройки"
+        title="Настройки"
+      >
+        ⚙
+      </button>
     </div>
   </div>
 </header>
@@ -106,7 +127,8 @@
 <nav class="tabs-wrap">
   <div class="tabs-inner">
     <div class="tabs">
-      <button type="button" class="tab-btn active" data-tab="builder" data-i18n="tabBuilder">Сборка</button>
+      <button type="button" class="tab-btn active" data-tab="info" data-i18n="tabInfo">Информация</button>
+      <button type="button" class="tab-btn" data-tab="builder" data-i18n="tabBuilder">Сборка</button>
       <button type="button" class="tab-btn" data-tab="explore" data-i18n="tabExplore">Обзор Modrinth</button>
     </div>
 
@@ -120,31 +142,85 @@
 
 <main>
 
-  <section id="tab-builder" class="tab-panel active">
+  <!-- ================= ВКЛАДКА: ИНФОРМАЦИЯ ================= -->
+  <section id="tab-info" class="tab-panel active">
+    <div class="info-page">
+      <div class="info-scroll">
+
+        <section class="panel info-hero">
+          <div class="info-hero-copy">
+            <div class="info-label" data-i18n="infoHeroLabel">О проекте</div>
+            <h1 data-i18n-html="infoHeroTitle">
+              ChestMod — удобный сундук для <span>модов, ресурспаков и шейдеров</span>
+            </h1>
+            <p data-i18n-html="infoHeroText">
+              Мы сделали этот сайт вместе: SanchezST придумывал идеи и требования,
+              а я помогал превращать их в интерфейс, логику и код.
+            </p>
+          </div>
+
+          <div class="info-hero-art">
+            <div class="info-hero-glow"></div>
+            <svg class="info-hero-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2 data-i18n="infoAboutTitle">Что это</h2>
+          </div>
+          <p class="info-text" data-i18n-html="infoAboutText">
+            ChestMod — это веб-сборник для Minecraft.
+          </p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2 data-i18n="infoHowTitle">Как это работает</h2>
+          </div>
+
+          <ol class="info-list">
+            <li data-i18n="infoHowStep1">1. Открой «Сборку» и выбери версию Minecraft и загрузчик.</li>
+            <li data-i18n="infoHowStep2">2. В «Обзоре Modrinth» найди моды, ресурспаки или шейдеры и положи их в сундук.</li>
+            <li data-i18n="infoHowStep3">3. Нажми «Скачать ZIP» — архив соберётся с папками mods, resourcepacks и shaderpacks.</li>
+          </ol>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2 data-i18n="infoFeaturesTitle">Возможности</h2>
+          </div>
+
+          <ul class="info-list info-features">
+            <li data-i18n="infoFeatureSearch">Поиск по Modrinth с фильтрами.</li>
+            <li data-i18n="infoFeatureChest">Сундук с группировкой по типам проектов.</li>
+            <li data-i18n="infoFeatureDeps">Проверка версий, загрузчиков, зависимостей и конфликтов.</li>
+            <li data-i18n="infoFeatureZip">Сборка ZIP с папками mods / resourcepacks / shaderpacks.</li>
+            <li data-i18n="infoFeatureThemes">Четыре цветовые гаммы, RU/EN и перевод описаний.</li>
+          </ul>
+        </section>
+
+        <section class="panel info-credits">
+          <div class="panel-head">
+            <h2 data-i18n="infoCreditsTitle">Авторство</h2>
+          </div>
+
+          <p class="info-text" data-i18n-html="infoCreditsText">
+            Идея, постановка задач и направление развития: <b>SanchezST</b>.
+            Реализация интерфейса, логики и кода сделана в паре с AI-ассистентом.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= ВКЛАДКА: СБОРКА ================= -->
+  <section id="tab-builder" class="tab-panel">
     <div class="layout">
 
       <div class="content">
-
-        <section class="panel hero">
-          <div class="hero-copy">
-            <div class="hero-label" data-i18n="heroLabel">Сборщик сборок</div>
-            <h1 data-i18n-html="heroTitle">Сложи файлы в сундук <span>и забери одним ZIP</span></h1>
-            <p data-i18n="heroText">
-              Выбираешь версию и загрузчик, кидаешь моды, ресурспаки и шейдеры в сундук — ChestMod сам
-              подтянет зависимости, проверит конфликты и соберёт архив с папками.
-            </p>
-            <div class="hero-steps">
-              <span class="step-chip active" data-i18n="step1">1. Версия</span>
-              <span class="step-chip" data-i18n="step2">2. Файлы</span>
-              <span class="step-chip" data-i18n="step3">3. ZIP</span>
-            </div>
-          </div>
-
-          <div class="hero-art">
-            <div class="hero-glow"></div>
-            <svg class="hero-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
-          </div>
-        </section>
 
         <section class="panel">
           <div class="panel-head">
@@ -169,8 +245,20 @@
           </div>
         </section>
 
+        <section class="panel builder-note">
+          <div class="panel-head">
+            <h2 data-i18n="builderNoteTitle">Совет</h2>
+          </div>
+
+          <p class="info-text" data-i18n-html="builderNoteText">
+            Если хочешь быстро начать — открой «Обзор Modrinth», выбери тип проекта
+            и добавляй файлы в сундук. Текущая версия и загрузчик всегда показаны в шапке.
+          </p>
+        </section>
+
       </div>
 
+      <!-- ================= СУНДУК ================= -->
       <aside class="panel chest">
         <div class="panel-head">
           <h2 data-i18n="chestTitle">Ваш сундук</h2>
@@ -207,6 +295,7 @@
   </section>
 
 
+  <!-- ================= ВКЛАДКА: ОБЗОР ================= -->
   <section id="tab-explore" class="tab-panel">
     <div class="explore-page">
       <div class="explore-layout">
@@ -248,11 +337,6 @@
               <span data-i18n="onlyBuild">Только под мою сборку</span>
             </label>
 
-            <label class="checkbox-field" id="translate-field">
-              <input type="checkbox" id="explore-translate">
-              <span data-i18n="translateDesc">Переводить описания</span>
-            </label>
-
             <button id="explore-refresh" class="btn-ghost" data-i18n="refresh">Обновить</button>
           </div>
         </aside>
@@ -273,12 +357,78 @@
 </main>
 
 
+<!-- ===== Затемнение фона для окна проекта ===== -->
 <div id="overlay" class="overlay"></div>
 
+
+<!-- ===== Модальное окно: детали проекта ===== -->
 <div id="mod-detail" class="modal-detail" role="dialog" aria-modal="true">
   <button type="button" class="modal-close" title="Close">✕</button>
   <div class="modal-body" id="mod-detail-body"></div>
 </div>
+
+
+<!-- ===== Затемнение фона для настроек ===== -->
+<div id="settings-overlay" class="settings-overlay"></div>
+
+
+<!-- ===== Модальное окно: настройки ===== -->
+<div id="settings-modal" class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+  <button type="button" class="modal-close" id="settings-close" title="Close">✕</button>
+
+  <div class="settings-modal-body">
+    <div class="settings-head">
+      <h2 id="settings-modal-title" data-i18n="settingsModalTitle">Настройки</h2>
+    </div>
+
+    <div class="settings-section">
+      <span class="settings-label" data-i18n="languageLabel">Язык</span>
+
+      <div class="settings-lang" id="settings-lang">
+        <button type="button" class="settings-lang-btn" data-lang="ru">Русский</button>
+        <button type="button" class="settings-lang-btn" data-lang="en">English</button>
+      </div>
+    </div>
+
+    <div class="settings-translate" id="settings-translate">
+      <label class="checkbox-field">
+        <input type="checkbox" id="explore-translate">
+        <span data-i18n="translateDesc">Переводить описания</span>
+      </label>
+
+      <small class="settings-hint" data-i18n="translateHint">
+        Переводятся краткие описания в карточках и полные тексты в окне проекта.
+      </small>
+    </div>
+
+    <div class="settings-section">
+      <span class="settings-label" data-i18n="themeLabel">Цветовая гамма</span>
+
+      <div class="theme-grid" id="theme-grid">
+        <button type="button" class="theme-btn active" data-theme="burgundy">
+          <span class="theme-preview preview-burgundy"></span>
+          <span data-i18n="themeBurgundy">Тёмно-бордовая</span>
+        </button>
+
+        <button type="button" class="theme-btn" data-theme="blue">
+          <span class="theme-preview preview-blue"></span>
+          <span data-i18n="themeBlue">Тёмно-синяя</span>
+        </button>
+
+        <button type="button" class="theme-btn" data-theme="purple">
+          <span class="theme-preview preview-purple"></span>
+          <span data-i18n="themePurple">Тёмно-фиолетовая</span>
+        </button>
+
+        <button type="button" class="theme-btn" data-theme="green">
+          <span class="theme-preview preview-green"></span>
+          <span data-i18n="themeGreen">Тёмно-зелёная</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div id="toast" class="toast"></div>
 

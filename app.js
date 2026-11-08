@@ -7,12 +7,14 @@ const API = 'https://api.modrinth.com/v2';
 const STORAGE_KEY = 'chestmod_v1';
 const LEGACY_STORAGE_KEY = 'modchest_v1';
 
-const TRANS_KEY = 'chestmod_translations_v4';
+const TRANS_KEY = 'chestmod_translations_v8';
 const TRANS_MAX = 300;
 
 const LAYOUT_MIN_WIDTH = 1060;
 
 const PROJECT_TYPES = ['mod', 'resourcepack', 'shader'];
+
+const THEMES = ['burgundy', 'blue', 'purple', 'green'];
 
 const TYPE_META = {
   mod: {
@@ -95,7 +97,8 @@ const PROTECTED_TERMS = [
   'Paper',
   'Folia',
   'ChestMod',
-  'ModChest'
+  'ModChest',
+  'SanchezST'
 ];
 
 const state = {
@@ -104,7 +107,8 @@ const state = {
   projectType: 'mod',
   cart: [],
   translate: false,
-  lang: 'ru'
+  lang: 'ru',
+  theme: 'burgundy'
 };
 
 const cache = new Map();
@@ -127,6 +131,8 @@ let sortPicker = null;
 let categoryPicker = null;
 
 let detailOpen = false;
+let settingsOpen = false;
+
 let detailTranslated = false;
 let detailRequestId = 0;
 
@@ -139,15 +145,37 @@ const detailOriginals = new Map();
 const I18N = {
   ru: {
     brandSub: 'Minecraft Modpack Vault',
+
+    tabInfo: 'Информация',
     tabBuilder: 'Сборка',
     tabExplore: 'Обзор Modrinth',
 
-    heroLabel: 'Сборщик сборок',
-    heroTitle: 'Сложи файлы в сундук <span>и забери одним ZIP</span>',
-    heroText: 'Выбираешь версию и загрузчик, кидаешь моды, ресурспаки и шейдеры в сундук — ChestMod сам подтянет зависимости, проверит конфликты и соберёт архив с папками <code>mods</code>, <code>resourcepacks</code> и <code>shaderpacks</code>.',
-    step1: '1. Версия',
-    step2: '2. Файлы',
-    step3: '3. ZIP',
+    settingsBtnTitle: 'Настройки',
+
+    infoHeroLabel: 'О проекте',
+    infoHeroTitle: 'ChestMod — удобный сундук для <span>модов, ресурспаков и шейдеров</span>',
+    infoHeroText: 'Мы сделали этот сайт вместе: SanchezST придумывал идеи и требования, а я помогал превращать их в интерфейс, логику и код. Здесь можно искать проекты на Modrinth, складывать их в сундук и скачивать одним ZIP с правильными папками.',
+
+    infoAboutTitle: 'Что это',
+    infoAboutText: 'ChestMod — это веб-сборник для Minecraft. Он не заменяет лаунчер, но помогает быстро собрать список файлов: моды, ресурспаки и шейдерпаки. Сайт обращается к официальному API Modrinth, проверяет версии и зависимости, а затем собирает ZIP-архив.',
+
+    infoHowTitle: 'Как это работает',
+    infoHowStep1: '1. Открой «Сборку» и выбери версию Minecraft и загрузчик.',
+    infoHowStep2: '2. В «Обзоре Modrinth» найди моды, ресурспаки или шейдеры и положи их в сундук.',
+    infoHowStep3: '3. Нажми «Скачать ZIP» — архив соберётся с папками mods, resourcepacks и shaderpacks.',
+
+    infoFeaturesTitle: 'Возможности',
+    infoFeatureSearch: 'Поиск по Modrinth с фильтрами по типу проекта, категории, сортировке и текущей сборке.',
+    infoFeatureChest: 'Сундук с группировкой по модам, ресурспакам и шейдерам.',
+    infoFeatureDeps: 'Проверка версий, загрузчиков, обязательных зависимостей и конфликтов.',
+    infoFeatureZip: 'Сборка ZIP без JSON-файла, с проверкой SHA-1 и случайным именем архива.',
+    infoFeatureThemes: 'Четыре цветовые гаммы, русский/английский интерфейс и перевод описаний.',
+
+    infoCreditsTitle: 'Авторство',
+    infoCreditsText: 'Идея, постановка задач и направление развития: <b>SanchezST</b>. Реализация интерфейса, логики и кода сделана в паре с AI-ассистентом.',
+
+    builderNoteTitle: 'Совет',
+    builderNoteText: 'Если хочешь быстро начать — открой «Обзор Modrinth», выбери тип проекта и добавляй файлы в сундук. Текущая версия и загрузчик всегда показаны в шапке.',
 
     settingsTitle: 'Параметры сборки',
     stepTag: 'Шаг 1',
@@ -186,7 +214,6 @@ const I18N = {
     sortLabel: 'Сортировка',
     categoryLabel: 'Категория',
     onlyBuild: 'Только под мою сборку',
-    translateDesc: 'Переводить описания',
     refresh: 'Обновить',
     loadMore: 'Показать ещё',
     loading: 'Загрузка…',
@@ -203,9 +230,19 @@ const I18N = {
     inCart: 'В сундуке ✓',
     openModrinth: 'Страница на Modrinth',
 
+    translateDesc: 'Переводить описания',
     translateBtn: '🌐 Перевести',
     showOriginal: 'Оригинал',
     translatingBusy: 'Перевожу…',
+
+    settingsModalTitle: 'Настройки',
+    languageLabel: 'Язык',
+    themeLabel: 'Цветовая гамма',
+    themeBurgundy: 'Тёмно-бордовая',
+    themeBlue: 'Тёмно-синяя',
+    themePurple: 'Тёмно-фиолетовая',
+    themeGreen: 'Тёмно-зелёная',
+    translateHint: 'Переводятся краткие описания в карточках и полные тексты в окне проекта.',
 
     detailLoadError: 'Не удалось загрузить информацию о проекте.',
     detailUpdated: 'Обновлён',
@@ -261,15 +298,37 @@ const I18N = {
 
   en: {
     brandSub: 'Minecraft Modpack Vault',
+
+    tabInfo: 'Info',
     tabBuilder: 'Builder',
     tabExplore: 'Browse Modrinth',
 
-    heroLabel: 'Pack Builder',
-    heroTitle: 'Stack files into the chest <span>and grab them as one ZIP</span>',
-    heroText: 'Pick a game version and loader, toss mods, resource packs and shaders into the chest — ChestMod pulls dependencies, checks conflicts and builds an archive with <code>mods</code>, <code>resourcepacks</code> and <code>shaderpacks</code> folders.',
-    step1: '1. Version',
-    step2: '2. Files',
-    step3: '3. ZIP',
+    settingsBtnTitle: 'Settings',
+
+    infoHeroLabel: 'About project',
+    infoHeroTitle: 'ChestMod is a convenient chest for <span>mods, resource packs and shaders</span>',
+    infoHeroText: 'We built this site together: SanchezST suggested ideas and requirements, and I helped turn them into interface, logic, and code. Here you can search Modrinth, put projects into the chest, and download one ZIP with correct folders.',
+
+    infoAboutTitle: 'What it is',
+    infoAboutText: 'ChestMod is a web pack builder for Minecraft. It does not replace a launcher, but helps quickly collect a list of files: mods, resource packs, and shader packs. The site uses the official Modrinth API, checks versions and dependencies, and then builds a ZIP archive.',
+
+    infoHowTitle: 'How it works',
+    infoHowStep1: '1. Open Builder and choose a Minecraft version and loader.',
+    infoHowStep2: '2. In Browse Modrinth, find mods, resource packs, or shaders and put them into the chest.',
+    infoHowStep3: '3. Press Download ZIP — the archive will be built with mods, resourcepacks, and shaderpacks folders.',
+
+    infoFeaturesTitle: 'Features',
+    infoFeatureSearch: 'Modrinth search with filters by project type, category, sorting, and current build.',
+    infoFeatureChest: 'Chest grouped by mods, resources, and shaders.',
+    infoFeatureDeps: 'Checks versions, loaders, required dependencies, and conflicts.',
+    infoFeatureZip: 'ZIP building without JSON file, with SHA-1 checks and a random archive name.',
+    infoFeatureThemes: 'Four color themes, RU/EN interface, and description translation.',
+
+    infoCreditsTitle: 'Credits',
+    infoCreditsText: 'Idea, task direction, and development vision: <b>SanchezST</b>. Interface, logic, and code implementation made together with an AI assistant.',
+
+    builderNoteTitle: 'Tip',
+    builderNoteText: 'If you want to start quickly, open Browse Modrinth, choose a project type, and add files to the chest. The current version and loader are always shown in the header.',
 
     settingsTitle: 'Build settings',
     stepTag: 'Step 1',
@@ -282,7 +341,7 @@ const I18N = {
 
     chestTitle: 'Your chest',
     chestEmptyTitle: 'Chest is empty',
-    chestEmptySub: 'Find mods, resource packs or shaders in Browse and put them here.',
+    chestEmptySub: 'Find mods, resource packs, or shaders in Browse and put them here.',
     download: 'Download ZIP',
     fixDeps: 'Pull dependencies',
     clear: 'Clear',
@@ -308,7 +367,6 @@ const I18N = {
     sortLabel: 'Sorting',
     categoryLabel: 'Category',
     onlyBuild: 'Only for my build',
-    translateDesc: 'Translate descriptions',
     refresh: 'Refresh',
     loadMore: 'Show more',
     loading: 'Loading…',
@@ -325,9 +383,19 @@ const I18N = {
     inCart: 'In chest ✓',
     openModrinth: 'Modrinth page',
 
+    translateDesc: 'Translate descriptions',
     translateBtn: '🌐 Translate',
     showOriginal: 'Original',
     translatingBusy: 'Translating…',
+
+    settingsModalTitle: 'Settings',
+    languageLabel: 'Language',
+    themeLabel: 'Color theme',
+    themeBurgundy: 'Dark burgundy',
+    themeBlue: 'Dark blue',
+    themePurple: 'Dark purple',
+    themeGreen: 'Dark green',
+    translateHint: 'Short card descriptions and full project texts are translated.',
 
     detailLoadError: 'Failed to load project info.',
     detailUpdated: 'Updated',
@@ -453,6 +521,10 @@ function normalizeType(type) {
   return PROJECT_TYPES.includes(type) ? type : 'mod';
 }
 
+function normalizeTheme(theme) {
+  return THEMES.includes(theme) ? theme : 'burgundy';
+}
+
 function getTypeMeta(type) {
   return TYPE_META[normalizeType(type)] || TYPE_META.mod;
 }
@@ -527,113 +599,6 @@ async function mapLimited(items, limit, fn) {
    Динамическая фиксация интерфейса
    ============================================================ */
 
-function injectRuntimeStyles() {
-  if (document.getElementById('chestmod-runtime-styles')) return;
-
-  const style = document.createElement('style');
-  style.id = 'chestmod-runtime-styles';
-
-  style.textContent = `
-    body.fixed-app {
-      overflow: hidden !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-    }
-
-    body.fixed-app main {
-      height: calc(100vh - var(--chrome-h, 152px)) !important;
-      height: calc(100dvh - var(--chrome-h, 152px)) !important;
-      min-height: 0 !important;
-      overflow: hidden !important;
-    }
-
-    body.fixed-app .tab-panel,
-    body.fixed-app .tab-panel.active {
-      height: 100% !important;
-      min-height: 0 !important;
-    }
-
-    body.fixed-app .layout,
-    body.fixed-app .explore-page,
-    body.fixed-app .explore-layout {
-      height: 100% !important;
-      min-height: 0 !important;
-      overflow: hidden !important;
-    }
-
-    body.fixed-app .content {
-      min-height: 0 !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-
-    body.fixed-app .chest {
-      height: 100% !important;
-      min-height: 0 !important;
-      overflow: hidden !important;
-    }
-
-    body.fixed-app .chest-list {
-      min-height: 160px !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-
-    body.fixed-app .explore-sidebar {
-      height: 100% !important;
-      min-height: 0 !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-
-    body.fixed-app .explore-content {
-      height: 100% !important;
-      min-height: 0 !important;
-      overflow: hidden !important;
-    }
-
-    body.fixed-app .explore-content .results-grid {
-      min-height: 0 !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-
-    body.fixed-app .field span {
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      height: auto !important;
-      overflow: visible !important;
-    }
-
-    body.fixed-app .picker-btn,
-    body.fixed-app .picker-value,
-    body.fixed-app .picker-option-label,
-    body.fixed-app .picker-menu-title,
-    body.fixed-app .picker-filter {
-      color: var(--text) !important;
-    }
-
-    body.fixed-app .picker-value {
-      min-width: 0 !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      white-space: nowrap !important;
-    }
-
-    body.fixed-app .mod-desc {
-      -webkit-line-clamp: 5 !important;
-    }
-
-    body.fixed-app .detail-body,
-    body.fixed-app .detail-desc {
-      overflow-wrap: anywhere !important;
-    }
-  `;
-
-  document.head.appendChild(style);
-}
-
 function updateChromeHeight() {
   const topbar = document.querySelector('.topbar');
   const tabs = document.querySelector('.tabs-wrap');
@@ -653,7 +618,6 @@ function updateLayoutMode() {
 }
 
 function initLayoutWatcher() {
-  injectRuntimeStyles();
   updateLayoutMode();
 
   window.addEventListener('resize', updateLayoutMode);
@@ -674,6 +638,19 @@ function initLayoutWatcher() {
     const observer = new ResizeObserver(() => updateLayoutMode());
     targets.forEach(el => observer.observe(el));
   }
+}
+
+/* ============================================================
+   Темы
+   ============================================================ */
+
+function applyTheme() {
+  state.theme = normalizeTheme(state.theme);
+  document.body.dataset.theme = state.theme;
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === state.theme);
+  });
 }
 
 /* ============================================================
@@ -708,13 +685,23 @@ function fixupDetailBody(scope) {
 }
 
 /* ============================================================
-   Оверлей
+   Оверлеи и блокировка прокрутки фона
    ============================================================ */
 
 function syncOverlay() {
   const overlay = $('overlay');
   if (!overlay) return;
   overlay.classList.toggle('show', detailOpen);
+}
+
+function syncSettingsOverlay() {
+  const overlay = $('settings-overlay');
+  if (!overlay) return;
+  overlay.classList.toggle('show', settingsOpen);
+}
+
+function syncBodyModal() {
+  document.body.classList.toggle('has-modal-open', detailOpen || settingsOpen);
 }
 
 /* ============================================================
@@ -986,10 +973,41 @@ function projectPageUrl(type, slug) {
 }
 
 /* ============================================================
-   Пикеры
+   Пикеры: portal в body + затемнение фона
    ============================================================ */
 
 const pickerRegistry = new Set();
+let openPicker = null;
+let pickerOverlay = null;
+
+function ensurePickerOverlay() {
+  if (pickerOverlay) return pickerOverlay;
+
+  pickerOverlay = document.createElement('div');
+  pickerOverlay.className = 'picker-overlay';
+  pickerOverlay.id = 'picker-overlay';
+
+  pickerOverlay.addEventListener('click', () => {
+    closeAllPickers();
+  });
+
+  document.body.appendChild(pickerOverlay);
+  return pickerOverlay;
+}
+
+function syncPickerOverlay() {
+  const overlay = ensurePickerOverlay();
+  const anyOpen = Boolean(openPicker);
+
+  overlay.classList.toggle('show', anyOpen);
+  document.body.classList.toggle('picker-open', anyOpen);
+}
+
+function closeAllPickers() {
+  pickerRegistry.forEach(p => p.close());
+  openPicker = null;
+  syncPickerOverlay();
+}
 
 function createPicker(container, settings) {
   const {
@@ -1013,27 +1031,32 @@ function createPicker(container, settings) {
       </span>
       <span class="picker-arrow">▾</span>
     </button>
-
-    <div class="picker-menu" hidden>
-      <div class="picker-menu-head">
-        <span class="picker-menu-title"></span>
-        <button type="button" class="picker-menu-close">✕</button>
-      </div>
-
-      ${filterable ? `<input type="text" class="picker-filter" placeholder="${escapeHtml(t('pickerFilterPh'))}">` : ''}
-
-      <div class="picker-options" role="listbox"></div>
-    </div>
   `;
+
+  const menu = document.createElement('div');
+  menu.className = 'picker-menu';
+  menu.hidden = true;
+
+  menu.innerHTML = `
+    <div class="picker-menu-head">
+      <span class="picker-menu-title"></span>
+      <button type="button" class="picker-menu-close">✕</button>
+    </div>
+
+    ${filterable ? `<input type="text" class="picker-filter" placeholder="${escapeHtml(t('pickerFilterPh'))}">` : ''}
+
+    <div class="picker-options" role="listbox"></div>
+  `;
+
+  document.body.appendChild(menu);
 
   const btn = container.querySelector('.picker-btn');
   const valueEl = container.querySelector('.picker-value');
   const currentIconEl = container.querySelector('.picker-current-icon');
-  const titleEl = container.querySelector('.picker-menu-title');
-  const closeBtn = container.querySelector('.picker-menu-close');
-  const menu = container.querySelector('.picker-menu');
-  const optionsBox = container.querySelector('.picker-options');
-  const filterInput = container.querySelector('.picker-filter');
+  const titleEl = menu.querySelector('.picker-menu-title');
+  const closeBtn = menu.querySelector('.picker-menu-close');
+  const optionsBox = menu.querySelector('.picker-options');
+  const filterInput = menu.querySelector('.picker-filter');
 
   function renderOptions(filterText = '') {
     const f = filterText.trim().toLowerCase();
@@ -1056,7 +1079,8 @@ function createPicker(container, settings) {
         <span class="picker-option-label">${escapeHtml(opt.label)}</span>
       `;
 
-      item.addEventListener('click', () => {
+      item.addEventListener('click', e => {
+        e.stopPropagation();
         current = opt.value;
         refresh();
         api.close();
@@ -1089,13 +1113,16 @@ function createPicker(container, settings) {
   }
 
   function openMenu() {
-    pickerRegistry.forEach(p => {
-      if (p !== api) p.close();
-    });
+    if (openPicker && openPicker !== api) {
+      openPicker.close();
+    }
 
     container.classList.add('open');
     menu.hidden = false;
     btn.setAttribute('aria-expanded', 'true');
+    openPicker = api;
+
+    syncPickerOverlay();
 
     if (filterInput) {
       filterInput.value = '';
@@ -1108,13 +1135,23 @@ function createPicker(container, settings) {
     container.classList.remove('open');
     menu.hidden = true;
     btn.setAttribute('aria-expanded', 'false');
+
+    if (openPicker === api) {
+      openPicker = null;
+    }
+
+    syncPickerOverlay();
   }
 
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
     menu.hidden ? openMenu() : closeMenu();
   });
 
-  closeBtn.addEventListener('click', () => api.close());
+  closeBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    api.close();
+  });
 
   if (filterInput) {
     filterInput.addEventListener('input', () => renderOptions(filterInput.value));
@@ -1127,7 +1164,7 @@ function createPicker(container, settings) {
 
       if (e.key === 'Escape') {
         e.stopPropagation();
-        closeMenu();
+        api.close();
         btn.focus();
       }
     });
@@ -1135,6 +1172,7 @@ function createPicker(container, settings) {
 
   const api = {
     container,
+    menu,
     allOptions,
 
     setOptions(opts, keepSelection = true) {
@@ -1170,14 +1208,21 @@ function createPicker(container, settings) {
 
 document.addEventListener('click', e => {
   pickerRegistry.forEach(p => {
-    if (p.isOpen() && !p.container.contains(e.target)) p.close();
+    if (
+      p.isOpen() &&
+      !p.container.contains(e.target) &&
+      !p.menu.contains(e.target)
+    ) {
+      p.close();
+    }
   });
 });
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    pickerRegistry.forEach(p => p.close());
+    closeAllPickers();
     closeModDetail();
+    closeSettingsModal();
   }
 });
 
@@ -1194,6 +1239,8 @@ function initTabs() {
 }
 
 function setActiveTab(tabId) {
+  closeAllPickers();
+
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
   });
@@ -1652,9 +1699,12 @@ function updateAddButtons() {
    ============================================================ */
 
 function openDetailShell() {
+  closeAllPickers();
+
   $('mod-detail').classList.add('show');
   detailOpen = true;
   syncOverlay();
+  syncBodyModal();
 }
 
 function closeModDetail() {
@@ -1668,6 +1718,7 @@ function closeModDetail() {
   detailRequestId++;
 
   syncOverlay();
+  syncBodyModal();
 }
 
 async function toggleDetailTranslation(btn) {
@@ -2435,6 +2486,54 @@ async function downloadPack() {
 }
 
 /* ============================================================
+   Настройки
+   ============================================================ */
+
+function openSettingsModal() {
+  closeAllPickers();
+
+  const modal = $('settings-modal');
+  if (!modal) return;
+
+  updateSettingsUI();
+  modal.classList.add('show');
+  settingsOpen = true;
+  syncSettingsOverlay();
+  syncBodyModal();
+}
+
+function closeSettingsModal() {
+  const modal = $('settings-modal');
+  if (!modal) return;
+
+  modal.classList.remove('show');
+  settingsOpen = false;
+  syncSettingsOverlay();
+  syncBodyModal();
+}
+
+function updateSettingsUI() {
+  document.querySelectorAll('.settings-lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === state.lang);
+  });
+
+  const translateWrap = $('settings-translate');
+  const translateCb = $('explore-translate');
+
+  if (translateWrap) {
+    translateWrap.classList.toggle('show', state.lang === 'ru');
+  }
+
+  if (translateCb) {
+    translateCb.checked = state.translate;
+  }
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === state.theme);
+  });
+}
+
+/* ============================================================
    Сохранение состояния
    ============================================================ */
 
@@ -2446,7 +2545,8 @@ function saveState() {
       projectType: state.projectType,
       cart: state.cart,
       translate: state.translate,
-      lang: state.lang
+      lang: state.lang,
+      theme: state.theme
     }));
   } catch {
     /* ignore */
@@ -2492,6 +2592,8 @@ function loadState() {
       state.lang = saved.lang;
     }
 
+    state.theme = normalizeTheme(saved.theme);
+
     if (Array.isArray(saved.cart)) {
       state.cart = saved.cart.map(m => ({
         ...m,
@@ -2536,22 +2638,18 @@ function applyI18n() {
     el.placeholder = t(el.dataset.i18nPlaceholder);
   });
 
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === state.lang);
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    el.title = t(el.dataset.i18nTitle);
+  });
+
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    el.setAttribute('aria-label', t(el.dataset.i18nAria));
   });
 
   updateProjectTypeButtons();
 
-  const translateField = $('translate-field');
-  const translateCb = $('explore-translate');
-
-  if (translateField && translateCb) {
-    if (state.lang !== 'ru' && state.translate) {
-      state.translate = false;
-      translateCb.checked = false;
-    }
-
-    translateField.hidden = state.lang !== 'ru';
+  if (state.lang !== 'ru' && state.translate) {
+    state.translate = false;
   }
 
   if (sortPicker) sortPicker.setOptions(sortOptions(), true);
@@ -2567,6 +2665,7 @@ function applyI18n() {
   renderCart();
   updateAddButtons();
   updateExploreMeta();
+  updateSettingsUI();
 
   requestAnimationFrame(updateLayoutMode);
 }
@@ -2584,12 +2683,6 @@ $('explore-search')?.addEventListener('keydown', e => {
 $('explore-refresh')?.addEventListener('click', () => searchExplore(true));
 $('explore-use-filters')?.addEventListener('change', () => searchExplore(true));
 $('explore-load-more')?.addEventListener('click', () => searchExplore(false));
-
-$('explore-translate')?.addEventListener('change', e => {
-  state.translate = e.target.checked;
-  saveState();
-  rerenderExploreResults();
-});
 
 $('goto-explore-btn')?.addEventListener('click', () => setActiveTab('explore'));
 
@@ -2609,13 +2702,49 @@ document.querySelector('#mod-detail .modal-close')?.addEventListener('click', ()
   closeModDetail();
 });
 
-document.querySelectorAll('.lang-btn').forEach(btn => {
+$('mod-detail')?.addEventListener('click', e => {
+  if (e.target.id === 'mod-detail') {
+    closeModDetail();
+  }
+});
+
+$('settings-btn')?.addEventListener('click', openSettingsModal);
+$('settings-close')?.addEventListener('click', closeSettingsModal);
+$('settings-overlay')?.addEventListener('click', closeSettingsModal);
+
+$('settings-modal')?.addEventListener('click', e => {
+  if (e.target.id === 'settings-modal') {
+    closeSettingsModal();
+  }
+});
+
+document.querySelectorAll('.settings-lang-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     state.lang = btn.dataset.lang;
+
+    if (state.lang !== 'ru') {
+      state.translate = false;
+    }
+
     saveState();
     applyI18n();
 
     if (explore.loaded) rerenderExploreResults();
+  });
+});
+
+$('explore-translate')?.addEventListener('change', e => {
+  state.translate = e.target.checked;
+  saveState();
+  rerenderExploreResults();
+});
+
+document.querySelectorAll('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    state.theme = normalizeTheme(btn.dataset.theme);
+    saveState();
+    applyTheme();
+    updateSettingsUI();
   });
 });
 
@@ -2624,6 +2753,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
    ============================================================ */
 
 loadState();
+applyTheme();
 
 renderCart();
 updateBuildContext();
@@ -2631,8 +2761,6 @@ updateBuildContext();
 initTabs();
 initExplorePickers();
 initExploreCategories();
-
-$('explore-translate').checked = state.translate;
 
 applyI18n();
 initLayoutWatcher();
