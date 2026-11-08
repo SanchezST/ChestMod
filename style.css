@@ -3231,3 +3231,131 @@ button:focus-visible,
     height: 42px;
   }
 }
+/* ============================================================
+   Пиксельный логотип ChestMod: бордовое свечение и тени
+   ============================================================ */
+
+:root {
+  --flat-logo-glow-light: rgba(255, 143, 163, 0.62);
+  --flat-logo-glow-main: rgba(194, 24, 58, 0.55);
+  --flat-logo-glow-deep: rgba(138, 12, 38, 0.38);
+}
+
+/* ===== Логотип в шапке ===== */
+
+.brand {
+  position: relative;
+  isolation: isolate;
+}
+
+.brand::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(194, 24, 58, 0.42) 0%,
+    rgba(138, 12, 38, 0.22) 42%,
+    rgba(255, 143, 163, 0.08) 62%,
+    transparent 76%
+  );
+  filter: blur(10px);
+  opacity: 0.95;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.brand-logo {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  image-rendering: pixelated;
+  filter:
+    drop-shadow(0 0 1px var(--flat-logo-glow-light))
+    drop-shadow(0 0 5px var(--flat-logo-glow-main))
+    drop-shadow(0 0 14px var(--flat-logo-glow-deep)) !important;
+}
+
+/* ===== Большой логотип во вкладке с информацией ===== */
+
+.info-hero-art {
+  position: relative;
+  isolation: isolate;
+}
+
+.info-hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 190px;
+  height: 190px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(194, 24, 58, 0.42) 0%,
+    rgba(138, 12, 38, 0.24) 36%,
+    rgba(255, 143, 163, 0.10) 58%,
+    transparent 76%
+  );
+  filter: blur(16px);
+  opacity: 0.98;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.info-hero-logo {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  image-rendering: pixelated;
+  filter:
+    drop-shadow(0 0 1px var(--flat-logo-glow-light))
+    drop-shadow(0 0 8px var(--flat-logo-glow-main))
+    drop-shadow(0 0 20px var(--flat-logo-glow-deep)) !important;
+}
+
+/* ===== Адаптив ===== */
+
+@media (max-height: 860px) and (min-width: 1061px) {
+  .brand::before {
+    left: -3px;
+    width: 54px;
+    height: 54px;
+    filter: blur(8px);
+  }
+
+  .info-hero-glow {
+    width: 160px;
+    height: 160px;
+    filter: blur(13px);
+  }
+}
+
+@media (max-width: 900px) {
+  .info-hero-glow {
+    width: 145px;
+    height: 145px;
+    filter: blur(12px);
+  }
+}
+
+@media (max-width: 640px) {
+  .brand::before {
+    left: -2px;
+    width: 50px;
+    height: 50px;
+    filter: blur(7px);
+  }
+
+  .info-hero-glow {
+    width: 125px;
+    height: 125px;
+    filter: blur(10px);
+  }
+}

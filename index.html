@@ -87,6 +87,90 @@
       <rect x="9" y="11" width="2" height="2" style="fill: var(--logo-spark)" shape-rendering="crispEdges"/>
       <rect x="57" y="34" width="2" height="2" style="fill: var(--logo-gold-2)" shape-rendering="crispEdges"/>
     </symbol>
+    <symbol id="chest-logo-flat" viewBox="0 0 64 64">
+  <!-- Верхняя крышка -->
+  <rect
+    x="8"
+    y="8"
+    width="48"
+    height="16"
+    rx="0"
+    ry="0"
+    fill="#c2183a"
+    stroke="#5c0d1a"
+    stroke-width="4"
+    stroke-linejoin="miter"
+    shape-rendering="crispEdges"
+  />
+
+  <!-- Нижняя часть -->
+  <rect
+    x="8"
+    y="26"
+    width="48"
+    height="30"
+    rx="0"
+    ry="0"
+    fill="#8e1226"
+    stroke="#4a0713"
+    stroke-width="4"
+    stroke-linejoin="miter"
+    shape-rendering="crispEdges"
+  />
+
+  <!-- Тёмная полоса между крышкой и корпусом -->
+  <rect
+    x="8"
+    y="24"
+    width="48"
+    height="4"
+    rx="0"
+    ry="0"
+    fill="#3d0710"
+    opacity="0.45"
+    shape-rendering="crispEdges"
+  />
+
+  <!-- Золотой замок без скважины -->
+  <rect
+    x="27"
+    y="16"
+    width="10"
+    height="20"
+    rx="0"
+    ry="0"
+    fill="#ffd7a1"
+    stroke="#b8622d"
+    stroke-width="3"
+    stroke-linejoin="miter"
+    shape-rendering="crispEdges"
+  />
+
+  <!-- Лёгкие блики, тоже без скруглений -->
+  <rect
+    x="12"
+    y="12"
+    width="40"
+    height="2"
+    rx="0"
+    ry="0"
+    fill="#ffffff"
+    opacity="0.13"
+    shape-rendering="crispEdges"
+  />
+
+  <rect
+    x="12"
+    y="30"
+    width="40"
+    height="2"
+    rx="0"
+    ry="0"
+    fill="#ffffff"
+    opacity="0.07"
+    shape-rendering="crispEdges"
+  />
+</symbol>
   </defs>
 </svg>
 
@@ -94,7 +178,7 @@
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <svg class="brand-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+      <svg class="brand-logo" aria-hidden="true"><use href="#chest-logo-flat"></use></svg>
       <div>
         <div class="brand-name">ChestMod</div>
         <div class="brand-sub" data-i18n="brandSub">by SanchezST x Qwen 3.8</div>
@@ -145,7 +229,7 @@
     </div>
 
     <button type="button" class="chest-mini" id="chest-mini" title="Открыть сундук">
-      <svg class="mini-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+      <svg class="mini-logo" aria-hidden="true"><use href="#chest-logo-flat"></use></svg>
       <span id="chest-count-top">0</span>
     </button>
   </div>
@@ -173,7 +257,7 @@
 
           <div class="info-hero-art">
             <div class="info-hero-glow"></div>
-            <svg class="info-hero-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+            <svg class="info-hero-logo" aria-hidden="true"><use href="#chest-logo-flat"></use></svg>
           </div>
         </section>
 
@@ -281,7 +365,7 @@
         <div id="chest-issues" class="chest-issues" hidden></div>
 
         <div id="chest-empty" class="empty-state">
-          <svg class="empty-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
+          <svg class="empty-logo" aria-hidden="true"><use href="#chest-logo-flat"></use></svg>
           <p data-i18n="chestEmptyTitle">Сундук пуст</p>
           <small data-i18n="chestEmptySub">Найдите моды, ресурспаки или шейдеры в обзоре и положите их сюда.</small>
         </div>
