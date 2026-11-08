@@ -144,7 +144,7 @@ const detailOriginals = new Map();
 
 const I18N = {
   ru: {
-    brandSub: 'Minecraft Modpack Vault',
+    brandSub: 'beta 1.1',
 
     tabInfo: 'Информация',
     tabBuilder: 'Сборка',
@@ -153,32 +153,32 @@ const I18N = {
     settingsBtnTitle: 'Настройки',
 
     infoHeroLabel: 'О проекте',
-    infoHeroTitle: 'ChestMod — удобный сундук для <span>модов, ресурспаков и шейдеров</span>',
-    infoHeroText: 'Мы сделали этот сайт вместе: SanchezST придумывал идеи и требования, а я помогал превращать их в интерфейс, логику и код. Здесь можно искать проекты на Modrinth, складывать их в сундук и скачивать одним ZIP с правильными папками.',
+    infoHeroTitle: 'ChestMod - сборщик <span>модов, ресурспаков и шейдеров</span>',
+    infoHeroText: 'Устал лазать по сайтам и скачивать каждый мод по-отдельности? На этом сайте вы можете в несколько кликов создать свою собственную сборку и скачать ее в zip-файл. Сайт создан при помощи ИИ. Могут возникнуть ошибки.',
 
-    infoAboutTitle: 'Что это',
-    infoAboutText: 'ChestMod — это веб-сборник для Minecraft. Он не заменяет лаунчер, но помогает быстро собрать список файлов: моды, ресурспаки и шейдерпаки. Сайт обращается к официальному API Modrinth, проверяет версии и зависимости, а затем собирает ZIP-архив.',
+    infoAboutTitle: 'Что это?',
+    infoAboutText: 'Надоели обычные сборки на различных сайтах? Хочешь создать что-то своё? Динозавры и пистолеты? Магия и техника? ChestMod - это сайт, на котором вы можете в несколько кликов создать вашу собственную сборку. Все моды берутся с сайта Modrinth.',
 
-    infoHowTitle: 'Как это работает',
-    infoHowStep1: '1. Открой «Сборку» и выбери версию Minecraft и загрузчик.',
-    infoHowStep2: '2. В «Обзоре Modrinth» найди моды, ресурспаки или шейдеры и положи их в сундук.',
-    infoHowStep3: '3. Нажми «Скачать ZIP» — архив соберётся с папками mods, resourcepacks и shaderpacks.',
+    infoHowTitle: 'Как это работает?',
+    infoHowStep1: 'Открой вкладку «Сборка» и выбери версию Minecraft и загрузчик.',
+    infoHowStep2: 'Во вкладке «Обзор Modrinth» найди моды, ресурспаки или шейдеры и "положи" их в сундук.',
+    infoHowStep3: 'Нажми «Скачать ZIP» - и ты получишь архив, который нужно распаковать в .minecraft.',
 
     infoFeaturesTitle: 'Возможности',
-    infoFeatureSearch: 'Поиск по Modrinth с фильтрами по типу проекта, категории, сортировке и текущей сборке.',
-    infoFeatureChest: 'Сундук с группировкой по модам, ресурспакам и шейдерам.',
+    infoFeatureSearch: 'Поиск по Modrinth с детальными настройками поиска.',
+    infoFeatureChest: 'Сундук с модами, ресурспаками и шейдерами.',
     infoFeatureDeps: 'Проверка версий, загрузчиков, обязательных зависимостей и конфликтов.',
-    infoFeatureZip: 'Сборка ZIP без JSON-файла, с проверкой SHA-1 и случайным именем архива.',
-    infoFeatureThemes: 'Четыре цветовые гаммы, русский/английский интерфейс и перевод описаний.',
+    infoFeatureZip: 'Сборка ZIP , с проверкой SHA-1.',
+    infoFeatureThemes: 'Хорошая персонализация в настройках.',
 
     infoCreditsTitle: 'Авторство',
-    infoCreditsText: 'Идея, постановка задач и направление развития: <b>SanchezST</b>. Реализация интерфейса, логики и кода сделана в паре с AI-ассистентом.',
+    infoCreditsText: 'Идея, постановка задач и направление развития: <b>SanchezST</b>. Реализация интерфейса, логики и кода сделана в паре с AI-ассистентом Qwen 3.8 Max.',
 
     builderNoteTitle: 'Совет',
-    builderNoteText: 'Если хочешь быстро начать — открой «Обзор Modrinth», выбери тип проекта и добавляй файлы в сундук. Текущая версия и загрузчик всегда показаны в шапке.',
+    builderNoteText: 'Если хочешь быстро начать - открой «Обзор Modrinth», выбери тип проекта и добавляй файлы в сундук. Текущая версия и загрузчик всегда показаны в шапке.',
 
     settingsTitle: 'Параметры сборки',
-    stepTag: 'Шаг 1',
+    stepTag: 'Обязательно перед выбором модов и др.',
     versionLabel: 'Версия Minecraft',
     loaderLabel: 'Загрузчик',
     findMods: '🔎 Найти в обзоре',
@@ -231,7 +231,7 @@ const I18N = {
     openModrinth: 'Страница на Modrinth',
 
     translateDesc: 'Переводить описания',
-    translateBtn: '🌐 Перевести',
+    translateBtn: 'Перевести?',
     showOriginal: 'Оригинал',
     translatingBusy: 'Перевожу…',
 
@@ -297,7 +297,7 @@ const I18N = {
   },
 
   en: {
-    brandSub: 'Minecraft Modpack Vault',
+    brandSub: 'beta 1.1',
 
     tabInfo: 'Info',
     tabBuilder: 'Builder',
@@ -306,32 +306,32 @@ const I18N = {
     settingsBtnTitle: 'Settings',
 
     infoHeroLabel: 'About project',
-    infoHeroTitle: 'ChestMod is a convenient chest for <span>mods, resource packs and shaders</span>',
-    infoHeroText: 'We built this site together: SanchezST suggested ideas and requirements, and I helped turn them into interface, logic, and code. Here you can search Modrinth, put projects into the chest, and download one ZIP with correct folders.',
+    infoHeroTitle: 'ChestMod – a collector of <span>mods, resource packs and shaders</span>',
+    infoHeroText: 'Tired of scouring websites and downloading each mod individually? On this site, you can create your own custom modpack in just a few clicks and download it as a zip file. This site was built using AI, so errors may appear.',
 
-    infoAboutTitle: 'What it is',
-    infoAboutText: 'ChestMod is a web pack builder for Minecraft. It does not replace a launcher, but helps quickly collect a list of files: mods, resource packs, and shader packs. The site uses the official Modrinth API, checks versions and dependencies, and then builds a ZIP archive.',
+    infoAboutTitle: 'What is it?',
+    infoAboutText: 'Tired of the standard modpacks found on various websites? Want to create something of your own? Dinosaurs and guns? Magic and technology? ChestMod is a site where you can build your own custom modpack in just a few clicks. All mods are sourced from Modrinth.',
 
     infoHowTitle: 'How it works',
-    infoHowStep1: '1. Open Builder and choose a Minecraft version and loader.',
-    infoHowStep2: '2. In Browse Modrinth, find mods, resource packs, or shaders and put them into the chest.',
-    infoHowStep3: '3. Press Download ZIP — the archive will be built with mods, resourcepacks, and shaderpacks folders.',
+    infoHowStep1: 'Open Builder and choose a Minecraft version and modloader.',
+    infoHowStep2: 'In Browse Modrinth, find mods, resource packs, or shaders and put them into the chest.',
+    infoHowStep3: 'Press Download ZIP — the archive will be built with mods, resourcepacks, and shaderpacks folders.',
 
     infoFeaturesTitle: 'Features',
     infoFeatureSearch: 'Modrinth search with filters by project type, category, sorting, and current build.',
     infoFeatureChest: 'Chest grouped by mods, resources, and shaders.',
     infoFeatureDeps: 'Checks versions, loaders, required dependencies, and conflicts.',
-    infoFeatureZip: 'ZIP building without JSON file, with SHA-1 checks and a random archive name.',
-    infoFeatureThemes: 'Four color themes, RU/EN interface, and description translation.',
+    infoFeatureZip: 'ZIP building with SHA-1 checks.',
+    infoFeatureThemes: 'Good personalisation.',
 
     infoCreditsTitle: 'Credits',
-    infoCreditsText: 'Idea, task direction, and development vision: <b>SanchezST</b>. Interface, logic, and code implementation made together with an AI assistant.',
+    infoCreditsText: 'Idea, task direction, and development vision: <b>SanchezST</b>. Interface, logic, and code implementation made together with an AI assistant Qwen 3.8 Max.',
 
     builderNoteTitle: 'Tip',
     builderNoteText: 'If you want to start quickly, open Browse Modrinth, choose a project type, and add files to the chest. The current version and loader are always shown in the header.',
 
     settingsTitle: 'Build settings',
-    stepTag: 'Step 1',
+    stepTag: 'Be sure to check this before choosing mods, etc.',
     versionLabel: 'Minecraft version',
     loaderLabel: 'Loader',
     findMods: '🔎 Find in Browse',

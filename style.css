@@ -2944,3 +2944,290 @@ button:disabled {
     scroll-behavior: auto !important;
   }
 }
+/* ============================================================
+   FIX: первый блок информации, квадратные кнопки,
+   Minecraft-рамка при наведении, красивая кнопка настроек
+   ============================================================ */
+
+:root {
+  --btn-radius: 5px;
+  --mc-light: rgba(255, 255, 255, 0.82);
+  --mc-dark: rgba(0, 0, 0, 0.48);
+}
+
+/* ============================================================
+   1. Фикс первого блока во вкладке "Информация"
+   ============================================================ */
+
+.info-page,
+.info-scroll {
+  position: relative;
+  z-index: 1;
+}
+
+.info-scroll {
+  gap: 18px;
+}
+
+.info-scroll > .panel {
+  position: relative;
+  z-index: 1;
+}
+
+.info-hero {
+  min-height: 230px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(var(--accent-rgb), 0.18), transparent 34%),
+    radial-gradient(circle at 12% 88%, rgba(var(--gold-rgb), 0.10), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.022)),
+    var(--surface);
+  border: 1px solid rgba(var(--accent-rgb), 0.26);
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  isolation: isolate;
+  overflow: hidden;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.info-hero::before {
+  display: none;
+}
+
+.info-hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.info-hero-art {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  align-self: center;
+}
+
+.info-hero-glow {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 170px;
+  height: 170px;
+  opacity: 0.75;
+  z-index: 0;
+}
+
+.info-hero-logo {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-height: 860px) and (min-width: 1061px) {
+  .info-hero {
+    min-height: 190px;
+    padding: 18px;
+  }
+
+  .info-hero h1 {
+    font-size: 1.85rem;
+  }
+
+  .info-hero p {
+    font-size: 1.02rem;
+    line-height: 1.62;
+  }
+
+  .info-hero-logo {
+    width: 110px;
+    height: 110px;
+  }
+
+  .info-hero-glow {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 900px) {
+  .info-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .info-hero-art {
+    margin-top: 6px;
+  }
+
+  .info-hero-logo {
+    width: 96px;
+    height: 96px;
+  }
+
+  .info-hero-glow {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 640px) {
+  .info-hero {
+    padding: 18px;
+  }
+
+  .info-hero h1 {
+    font-size: 1.65rem;
+  }
+
+  .info-hero p {
+    font-size: 1.02rem;
+    line-height: 1.62;
+  }
+}
+
+/* ============================================================
+   2. Более квадратные кнопки
+   ============================================================ */
+
+button,
+.picker-btn,
+.modal-close,
+.picker-menu-close,
+.tab-btn,
+.type-btn,
+.icon-btn,
+.add-btn,
+.detail-link,
+.settings-lang-btn,
+.theme-btn,
+.chest-mini,
+.page-link,
+.chest-link,
+.picker-option {
+  border-radius: var(--btn-radius);
+}
+
+/* ============================================================
+   3. Тонкая Minecraft-рамка при наведении / фокусе
+   ============================================================ */
+
+button:hover:not(:disabled),
+button:focus-visible,
+.detail-link:hover,
+.detail-link:focus-visible,
+.page-link:hover,
+.page-link:focus-visible,
+.chest-link:hover,
+.chest-link:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px var(--mc-light),
+    0 0 0 1px var(--mc-dark),
+    0 12px 24px rgba(var(--accent-2-rgb), 0.22);
+}
+
+.btn-ghost:hover:not(:disabled),
+.btn-ghost:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--accent-rgb), 0.78),
+    0 0 0 1px var(--mc-dark),
+    0 10px 20px rgba(0, 0, 0, 0.22);
+}
+
+.btn-danger:hover:not(:disabled),
+.btn-danger:focus-visible,
+.icon-btn:hover:not(:disabled),
+.icon-btn:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--danger-rgb), 0.82),
+    0 0 0 1px var(--mc-dark),
+    0 10px 20px rgba(var(--danger-rgb), 0.14);
+}
+
+.add-btn.added:hover:not(:disabled),
+.add-btn.added:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--success-rgb), 0.82),
+    0 0 0 1px var(--mc-dark);
+}
+
+.picker-option:hover {
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.28);
+}
+
+/* ============================================================
+   4. Красивая кнопка настроек
+   ============================================================ */
+
+.settings-btn {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(var(--gold-rgb), 0.24), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(0, 0, 0, 0.24)),
+    var(--surface-2);
+  border: 1px solid rgba(var(--gold-rgb), 0.30);
+  color: var(--gold);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 22px rgba(0, 0, 0, 0.28);
+  overflow: visible;
+}
+
+.settings-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.2s ease;
+  filter: drop-shadow(0 0 4px rgba(var(--gold-rgb), 0.25));
+}
+
+.settings-btn:hover:not(:disabled),
+.settings-btn:focus-visible {
+  transform: translateY(-1px);
+  color: #fff6df;
+  border-color: rgba(var(--gold-rgb), 0.62);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.82),
+    0 0 0 1px rgba(0, 0, 0, 0.48),
+    0 14px 28px rgba(var(--gold-rgb), 0.18);
+}
+
+.settings-btn:hover .settings-icon,
+.settings-btn:focus-visible .settings-icon {
+  transform: rotate(35deg) scale(1.06);
+  filter: drop-shadow(0 0 8px rgba(var(--gold-rgb), 0.45));
+}
+
+.settings-btn:active {
+  transform: scale(0.96);
+}
+
+.settings-btn:active .settings-icon {
+  transform: rotate(0deg) scale(0.96);
+}
+
+@media (max-height: 860px) and (min-width: 1061px) {
+  .settings-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+  }
+
+  .settings-icon {
+    width: 19px;
+    height: 19px;
+  }
+}
+
+@media (max-width: 640px) {
+  .settings-btn {
+    width: 42px;
+    height: 42px;
+  }
+}

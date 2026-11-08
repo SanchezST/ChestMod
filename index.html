@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChestMod — сундук с модами, ресурспаками и шейдерами</title>
+  <title>ChestMod</title>
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><polygon points='32,6 56,18 32,30 8,18' fill='%23d32040'/><polygon points='8,18 32,30 32,54 8,42' fill='%235c0d1a'/><polygon points='32,30 56,18 56,42 32,54' fill='%238e1226'/><polygon points='40.5,29.5 47.5,26 45.3,24.9 38.3,28.4' fill='%23ffd7a1'/><polygon points='40.5,29.5 40.5,38.5 38.3,37.4 38.3,28.4' fill='%23b8622d'/><polygon points='40.5,29.5 47.5,26 47.5,35 40.5,38.5' fill='%23ffb45c'/></svg>">
 
@@ -97,7 +97,7 @@
       <svg class="brand-logo" aria-hidden="true"><use href="#chest-logo"></use></svg>
       <div>
         <div class="brand-name">ChestMod</div>
-        <div class="brand-sub" data-i18n="brandSub">Minecraft Modpack Vault</div>
+        <div class="brand-sub" data-i18n="brandSub">by SanchezST x Qwen 3.8</div>
       </div>
     </div>
 
@@ -109,16 +109,28 @@
       <div class="build-pill" id="build-pill">1.20.1 · Fabric</div>
 
       <button
-        type="button"
-        class="settings-btn"
-        id="settings-btn"
-        data-i18n-title="settingsBtnTitle"
-        data-i18n-aria="settingsBtnTitle"
-        aria-label="Настройки"
-        title="Настройки"
-      >
-        ⚙
-      </button>
+  type="button"
+  class="settings-btn"
+  id="settings-btn"
+  data-i18n-title="settingsBtnTitle"
+  data-i18n-aria="settingsBtnTitle"
+  aria-label="Настройки"
+  title="Настройки"
+>
+  <svg
+    class="settings-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+  </svg>
+</button>
     </div>
   </div>
 </header>
@@ -170,7 +182,8 @@
             <h2 data-i18n="infoAboutTitle">Что это</h2>
           </div>
           <p class="info-text" data-i18n-html="infoAboutText">
-            ChestMod — это веб-сборник для Minecraft.
+            Надоели обычные сборки на сайтах? Хочешь создать что-то своё? ChestMod - это сайт, на котором вы можете в несколько кликов создать вашу новую сборку.
+Все моды берутся с сайта Modrinth
           </p>
         </section>
 
@@ -180,9 +193,9 @@
           </div>
 
           <ol class="info-list">
-            <li data-i18n="infoHowStep1">1. Открой «Сборку» и выбери версию Minecraft и загрузчик.</li>
-            <li data-i18n="infoHowStep2">2. В «Обзоре Modrinth» найди моды, ресурспаки или шейдеры и положи их в сундук.</li>
-            <li data-i18n="infoHowStep3">3. Нажми «Скачать ZIP» — архив соберётся с папками mods, resourcepacks и shaderpacks.</li>
+            <li data-i18n="infoHowStep1">Открой вкладку «Сборка» и выбери версию Minecraft и загрузчик.</li>
+            <li data-i18n="infoHowStep2">Во вкладке «Обзор Modrinth» найди моды, ресурспаки или шейдеры и "положи" их в сундук.</li>
+            <li data-i18n="infoHowStep3">Нажми «Скачать ZIP» — ты получишь архив, который нужно распаковать в .minecraft.</li>
           </ol>
         </section>
 
